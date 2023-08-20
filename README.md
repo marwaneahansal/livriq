@@ -1,4 +1,5 @@
 # Livriq
-livriq main goal is to connect self working delivery man or a company of delivery to e-commerce sellers to maintain the delivery part of the e-commerce world;
+
+The primary objective of Livriq is to establish seamless connections between independent delivery professionals, delivery companies, and e-commerce sellers, thereby effectively managing the crucial delivery aspect of the e-commerce industry.
 
 
