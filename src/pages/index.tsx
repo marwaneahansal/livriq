@@ -1,5 +1,6 @@
 import { Button } from "@nextui-org/react";
 import Head from "next/head";
+import { NavBar } from "~/components/NavBar";
 // import { api } from "~/utils/api";
 
 export default function Home() {
@@ -13,9 +14,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-100 h-screen">
-        <div className="flex flex-col items-center justify-center h-full">
-          <Button color="primary">NextUi Button</Button>
-        </div>
+        <NavBar />
       </main>
     </>
   );

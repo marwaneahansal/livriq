@@ -3,6 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 import { NextUIProvider } from "@nextui-org/react";
+import { poppins } from "~/utils/fonts";
 import "~/styles/globals.css";
 
 const MyApp: AppType<{ session: Session | null }> = ({
@@ -12,7 +13,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
   return (
     <NextUIProvider>
       <SessionProvider session={session}>
-        <Component {...pageProps} />
+        <main className={poppins.className}>
+          <Component {...pageProps} />
+        </main>
       </SessionProvider>
     </NextUIProvider>
   );
