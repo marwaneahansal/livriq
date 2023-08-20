@@ -1,8 +1,8 @@
 # Front-end
 
 #### * The landing page
-    - [ ] navbar 
-
+    - [X] navbar 
+    - [ ] hero section
 
 
 

@@ -10,8 +10,8 @@ export const NavBar = () => {
     //     "Sign Up",
     //   ];
     return (
-        <div className='w-full py-4'>
-            <Navbar shouldHideOnScroll onMenuOpenChange={setIsMenuOpen} isBordered>
+        <div className='w-full'>
+            <Navbar onMenuOpenChange={setIsMenuOpen} isBordered isBlurred className='py-2 px-[6.5rem]' maxWidth='full'>
                 <NavbarMenuToggle
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                     className="sm:hidden"
@@ -21,12 +21,12 @@ export const NavBar = () => {
                 </NavbarBrand>
                 <NavbarContent justify="end">
                     <NavbarItem className="hidden lg:flex">
-                    <Link href="#">Login</Link>
+                        <Link href="#">Login</Link>
                     </NavbarItem>
                     <NavbarItem>
-                    <Button as={Link} color="primary" href="#" variant="flat">
-                        Sign Up
-                    </Button>
+                        <Button as={Link} color="primary" href="#" variant="flat">
+                            Sign Up
+                        </Button>
                     </NavbarItem>
                 </NavbarContent>
                 <NavbarMenu>
