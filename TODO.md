@@ -2,7 +2,7 @@
 
 #### * The landing page
     - [X] navbar 
-    - [ ] hero section
+    - [X] hero section (minimal)
 
 
 

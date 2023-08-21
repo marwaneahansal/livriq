@@ -1,4 +1,4 @@
-import { Poppins } from 'next/font/google';
+import { Cairo, Poppins } from 'next/font/google';
 
 export const poppins = Poppins({
     display: 'swap',
@@ -6,3 +6,7 @@ export const poppins = Poppins({
     weight: '400',
 });
 
+export const cairo = Cairo({
+    display: 'swap',
+    subsets: ['latin'],
+});
