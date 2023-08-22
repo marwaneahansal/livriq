@@ -1,0 +1,51 @@
+version: '3.5'
+
+name: livriq
+services:
+  db:
+    image: postgres
+    container_name: livriq-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: livriq
+      POSTGRES_PASSWORD: root
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+  prisma-studio:
+    container_name: prisma-studio
+    image: timothyjmiller/prisma-studio:latest
+    restart: unless-stopped
+    environment:
+      - POSTGRES_URL=${DATABASE_URL}
+    env_file:
+     - .env
+    ports:
+      - 5555:5555
+    depends_on:
+      - db
+  
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: livriq-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - db
+
+
+volumes:
+  dbdata:
+
+
+    
