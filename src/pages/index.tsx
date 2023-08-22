@@ -1,11 +1,8 @@
 import Head from "next/head";
 import { NavBar } from "~/components/NavBar";
 import { cairo } from "~/utils/fonts";
-// import { api } from "~/utils/api";
 
 export default function Home() {
-  // const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
   return (
     <>
       <Head>
@@ -13,9 +10,9 @@ export default function Home() {
         <meta name="description" content="Elevating E-commerce Delivery, One Connection at a Time." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="w-full">
+      {/* <main className="w-full">
         <NavBar />
-        <div className="wrapper w-10/12 mx-auto">
+        <div className="wrapper w-10/12 mx-auto"> */}
           <div className="flex flex-row gap-4 min-h-[80vh] items-center mx-auto">
             <div className="max-w-[60%] mx-auto">
               <h1 className="text-4xl font-semibold leading-[3rem] mb-4">
@@ -27,8 +24,8 @@ export default function Home() {
               </p>
             </div>
           </div>
-        </div>
-      </main>
+        {/* </div>
+      </main> */}
     </>
   );
 }
