@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { NavBar } from "~/components/NavBar";
+import { Loading } from "~/components/Loading";
 import { cairo } from "~/utils/fonts";
 
 export default function Home() {
@@ -10,22 +10,17 @@ export default function Home() {
         <meta name="description" content="Elevating E-commerce Delivery, One Connection at a Time." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {/* <main className="w-full">
-        <NavBar />
-        <div className="wrapper w-10/12 mx-auto"> */}
-          <div className="flex flex-row gap-4 min-h-[80vh] items-center mx-auto">
-            <div className="max-w-[60%] mx-auto">
-              <h1 className="text-4xl font-semibold leading-[3rem] mb-4">
-                Elevating E-commerce Delivery, One Connection at a Time.
-              </h1>
-              <p className={`${cairo.className} text-lg`}>
-                The primary objective of <span className="font-semibold">Livriq</span> is to establish seamless connections between independent delivery professionals,
-                delivery companies, and e-commerce sellers, thereby effectively managing the crucial delivery aspect of the e-commerce industry.
-              </p>
-            </div>
-          </div>
-        {/* </div>
-      </main> */}
+      <div className="flex flex-row gap-4 min-h-[80vh] items-center mx-auto">
+        <div className="max-w-[60%] mx-auto">
+          <h1 className="text-4xl font-semibold leading-[3rem] mb-4">
+            Elevating E-commerce Delivery, One Connection at a Time.
+          </h1>
+          <p className={`${cairo.className} text-lg`}>
+            The primary objective of <span className="font-semibold">Livriq</span> is to establish seamless connections between independent delivery professionals,
+            delivery companies, and e-commerce sellers, thereby effectively managing the crucial delivery aspect of the e-commerce industry.
+          </p>
+        </div>
+      </div>
     </>
   );
 }
