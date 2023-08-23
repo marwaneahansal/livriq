@@ -83,10 +83,10 @@ function NavbarItems() {
     return (
         <> 
             <NavbarItem className="hidden lg:flex">
-                <Link href={"login"}>Login</Link>
+                <Link href={"signin"}>Sign In</Link>
             </NavbarItem>
             <NavbarItem>
-                <Button as={Link} color="primary" href="#" variant="flat">
+                <Button as={Link} color="primary" href={"signup"} variant="flat">
                     Sign Up
                 </Button>
             </NavbarItem> 

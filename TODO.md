@@ -1,13 +1,13 @@
 # Front-end
 
-#### * The landing page
+## * The landing page
+
     - [X] navbar 
     - [X] hero section (minimal)
-    - [ ] login page
+    - [X] login page
     - [ ] signup page
     - [ ] signup steps page
 
+## * Back-end
 
-
-
-# Back-end
+    -  [ ] signup steps api

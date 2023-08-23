@@ -2,24 +2,24 @@ import { signIn } from "next-auth/react";
 import Head from "next/head";
 import { cairo } from "~/utils/fonts";
 
-export default function Login() {
+export default function SignIn() {
   return (
     <>
       <Head>
-        <title>Livriq - login</title>
+        <title>Livriq - Sign in</title>
         <meta name="description" content="Elevating E-commerce Delivery, One Connection at a Time." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex flex-col items-center justify-center gap-4 mt-20">
         <div className="flex flex-1 flex-col justify-center items-center space-y-5 w-full max-w-lg">
             <div className="flex flex-col space-y-2 text-center mb-4">
-              <h2 className="text-xl md:text-4xl font-bold">Login to account</h2>
-              <p className={`text-md md:text-xl ${cairo.className}`}>Login to your account to continue</p>
+              <h2 className="text-xl md:text-4xl font-bold">Sign in to account</h2>
+              <p className={`text-md md:text-xl ${cairo.className}`}>Sign in to your account to continue</p>
             </div>
             <div className="flex flex-col max-w-md space-y-5 w-full">
               <input type="text" placeholder="Username"
                 className="flex px-3 py-2 md:px-4 md:py-3 border-2 border-black rounded-lg font-medium placeholder:font-normal" />
-              <button className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-medium border-black bg-black text-white">Login</button>
+              <button className="flex items-center justify-center flex-none px-3 py-2 md:px-4 md:py-3 border-2 rounded-lg font-medium border-black bg-black text-white">Sign In</button>
               <div className="flex justify-center items-center">
                 <span className="w-full border border-black"></span>
                 <span className="px-4">Or</span>

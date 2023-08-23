@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { Loading } from "~/components/Loading";
 import { cairo } from "~/utils/fonts";
 
 export default function Home() {
