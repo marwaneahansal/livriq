@@ -34,17 +34,17 @@ function display_help {
 if [ $# -gt 0 ]; then
   if [ "$1" == "yarn" ]; then
     shift 1
-    docker-compose run --rm app yarn "$@"
+    docker compose exec -it app yarn "$@"
   elif [ "$1" == "node" ]; then
     shift 1
-    docker-compose run --rm app node "$@"
+    docker compose exec -it app node "$@"
   elif [ "$1" == "prisma" ]; then
     shift 1
-    docker-compose run --rm app npx prisma "$@"
+    docker compose exec -it app npx prisma "$@"
   elif [ "$1" == "help" ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
     display_help
   else
-    docker-compose  "$@"
+    docker compose  "$@"
   fi
 else
   display_help

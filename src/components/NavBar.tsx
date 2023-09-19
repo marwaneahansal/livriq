@@ -4,6 +4,7 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link'
 import React from 'react'
 import { Loading } from './Loading';
+import { useRouter } from 'next/router';
 
 export const NavBar = () => {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -51,6 +52,8 @@ export const NavBar = () => {
 }
 
 function UserDropdown({ user } : { user: User }) {
+    const router = useRouter();
+
     return (
         <Dropdown placement="bottom-end">
             <DropdownTrigger>
@@ -70,6 +73,7 @@ function UserDropdown({ user } : { user: User }) {
                     <p className="font-semibold">{ user.name }</p>
                     <p className="font-semibold">{ user.email }</p>
                 </DropdownItem>
+                <DropdownItem key="dashboard" onPress={() => void router.push('dashboard')}>Dashborad</DropdownItem>
                 <DropdownItem key="settings">My Settings</DropdownItem>
                 <DropdownItem key="logout" color="danger" onClick={() => void signOut({ callbackUrl: 'http://localhost:3000/' })}>
                     Log Out

@@ -5,7 +5,7 @@
     - [X] navbar 
     - [X] hero section (minimal)
     - [X] login page
-    - [ ] signup page
+    - [X] signup page
     - [ ] signup steps page
 
 ## * Back-end

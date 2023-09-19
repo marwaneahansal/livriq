@@ -6,18 +6,20 @@ import { NextUIProvider } from "@nextui-org/react";
 import "~/styles/globals.css";
 import Layout from "~/components/layout";
 import type { AppPropsType } from 'next/dist/shared/lib/utils';
+import { Loading } from "~/components/Loading";
 
 export type NextAuthComponentType = AppPropsType['Component'] & { auth?: boolean;};
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
-} : { Component: NextAuthComponentType, pageProps: { session: Session | null }}) => {
+}) => {
+  const AuthComponent = Component as NextAuthComponentType;
   return (
     <NextUIProvider>
       <SessionProvider session={session}>
         <Layout>
-          {Component.auth ? (
+          {AuthComponent.auth ? (
             <Auth>
               <Component {...pageProps} />
             </Auth>
@@ -35,7 +37,7 @@ function Auth({ children } : { children: React.ReactNode } ) {
   const { status } = useSession({ required: true })
 
   if (status === "loading") {
-    return <div>Loading...</div>
+    return <Loading />;
   }
 
   return children
