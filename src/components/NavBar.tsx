@@ -69,7 +69,6 @@ function UserDropdown({ user } : { user: User }) {
             </DropdownTrigger>
             <DropdownMenu aria-label="Profile Actions" variant="flat" color='primary'>
                 <DropdownItem key="profile" className="h-14 gap-2">
-                    <p className="font-semibold">Signed in as</p>
                     <p className="font-semibold">{ user.name }</p>
                     <p className="font-semibold">{ user.email }</p>
                 </DropdownItem>
