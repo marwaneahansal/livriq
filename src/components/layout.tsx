@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         className={`${poppins.className} w-full bg-background text-foreground light`}
       >
         <NavBar />
-        <div className="wrapper mx-auto mt-10 w-10/12">{children}</div>
+        <div className="wrapper mx-auto mt-2 w-10/12">{children}</div>
       </main>
     </>
   );
