@@ -10,7 +10,7 @@ import {
 import { useState } from "react";
 import { FirstStep } from "./Stepper/FirstStep";
 import { SecondStep } from "./Stepper/SecondStep";
-import type { User } from "@prisma/client";
+import { Roles, User } from "@prisma/client";
 import { api } from "~/utils/api";
 
 export const SetupModal = ({
@@ -32,10 +32,12 @@ export const SetupModal = ({
     if (formStep > 1) setFormStep((currentStep) => currentStep - 1);
   };
 
+  const [currentUserRole, setCurrentUserRole] = useState<Roles | null>(null);
+
   const ctx = api.useContext();
 
   const { mutate, isLoading: isSettingUserRole } =
-    api.users.setUserRole.useMutation({
+    api.users.setUserInfo.useMutation({
       onSuccess: () => {
         void ctx.users.getUser.invalidate();
         nextStepForm();
@@ -47,12 +49,19 @@ export const SetupModal = ({
     });
 
   const nextStep = (onClose: () => void) => {
-    if (formStep < FORM_MAX_STEPS) {
-      mutate({ isSeller: true });
+    if (formStep == FORM_MAX_STEPS) {
+      finishStep();
+    } else if (formStep < FORM_MAX_STEPS) {
+      nextStepForm();
     } else {
       onClose();
       setFormStep(1);
     }
+  };
+
+  const finishStep = () => {
+    //! add the second form data
+    mutate({ isSeller: currentUserRole === Roles.Seller ? true : false });
   };
 
   return (
@@ -76,7 +85,12 @@ export const SetupModal = ({
                     Step {formStep} of {FORM_MAX_STEPS}
                   </ModalHeader>
                   <ModalBody>
-                    {formStep === 1 && <FirstStep />}
+                    {formStep === 1 && (
+                      <FirstStep
+                        currentUserRole={currentUserRole}
+                        setCurrentUserRole={setCurrentUserRole}
+                      />
+                    )}
                     {formStep === 2 && <SecondStep />}
                   </ModalBody>
                   <ModalFooter>

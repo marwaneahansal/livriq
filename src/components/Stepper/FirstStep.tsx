@@ -1,18 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Checkbox, cn } from "@nextui-org/react";
+import { Roles } from "@prisma/client";
 
-export const FirstStep = () => {
+export const FirstStep = ({
+  currentUserRole,
+  setCurrentUserRole,
+}: {
+  currentUserRole: Roles | null;
+  setCurrentUserRole: (role: Roles | null) => void;
+}) => {
+  useEffect(() => {
+    if (currentUserRole == Roles.Seller) {
+      setIsShipper(false);
+      setIsSeller(true);
+    } else if (currentUserRole == Roles.Shipper) {
+      setIsSeller(false);
+      setIsShipper(true);
+    }
+  }, [currentUserRole]);
   const [isSeller, setIsSeller] = useState(false);
   const [isShipper, setIsShipper] = useState(false);
 
   const checkIsSeller = () => {
     setIsShipper(false);
     setIsSeller(true);
+    setCurrentUserRole(Roles.Seller);
   };
 
   const checkIsShipper = () => {
     setIsSeller(false);
     setIsShipper(true);
+    setCurrentUserRole(Roles.Shipper);
   };
 
   return (

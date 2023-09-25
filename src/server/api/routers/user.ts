@@ -11,16 +11,16 @@ export const usersRouter = createTRPCRouter({
         })
     }),
 
-    setUserRole: protectedProcedure
+    setUserInfo: protectedProcedure
     .input(z.object({ isSeller: z.boolean() }))
     .mutation(async ({ ctx, input }) => {
-        //! Roles is undefined
         const updatedUser = await ctx.prisma.user.update({
             where: {
                 id: ctx.session.user.id
             },
             data: {
-                role: input.isSeller ? Roles.Seller : Roles.Shipper
+                role: input.isSeller ? Roles.Seller : Roles.Shipper,
+                isCompleted: true,
             }
         });
 
