@@ -3,7 +3,7 @@ import { SetupModal } from "~/components/SetupModal";
 import { api } from "~/utils/api";
 
 export default function Dashbaord() {
-  const { data: userData } = api.users.getUser.useQuery();
+  const { data: currentUser } = api.users.getUser.useQuery();
 
   return (
     <>
@@ -15,7 +15,7 @@ export default function Dashbaord() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {!userData?.isCompleted && <SetupModal />}
+      {!currentUser?.isCompleted && <SetupModal currentUser={currentUser} />}
       <div className="flex w-full flex-col items-center justify-center gap-4">
         <div className="flex w-full flex-1 flex-col items-center justify-center space-y-5">
           <div className="mb-4 flex w-full flex-col space-y-2 text-center">
@@ -23,7 +23,7 @@ export default function Dashbaord() {
               Welcome to your dashboard
             </h2>
             <h3>
-              {userData?.isCompleted
+              {currentUser?.isCompleted
                 ? "Sign Up Completed"
                 : "Sign Up Not Completed"}
             </h3>

@@ -41,13 +41,19 @@ model Session {
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+enum Roles {
+    Seller
+    Shipper
+}
+
 model User {
     id            String    @id @default(cuid())
     name          String?
     email         String?   @unique
     emailVerified DateTime?
     image         String?
-    isCompleted    Boolean   @default(false)
+    isCompleted   Boolean   @default(false)
+    role          Roles?
     accounts      Account[]
     sessions      Session[]
 }

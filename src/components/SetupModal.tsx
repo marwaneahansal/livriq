@@ -10,22 +10,46 @@ import {
 import { useState } from "react";
 import { FirstStep } from "./Stepper/FirstStep";
 import { SecondStep } from "./Stepper/SecondStep";
+import type { User } from "@prisma/client";
+import { api } from "~/utils/api";
 
-export const SetupModal = () => {
+export const SetupModal = ({
+  currentUser,
+}: {
+  currentUser: User | null | undefined;
+}) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const FORM_MAX_STEPS = 2;
   const [formStep, setFormStep] = useState<number>(1);
 
-  const nextStepForm = () => setFormStep((currentStep) => currentStep + 1);
+  const nextStepForm = () => {
+    if (formStep < FORM_MAX_STEPS)
+      setFormStep((currentStep) => currentStep + 1);
+  };
 
   const prevStepForm = () => {
     if (formStep > 1) setFormStep((currentStep) => currentStep - 1);
   };
 
+  const ctx = api.useContext();
+
+  const { mutate, isLoading: isSettingUserRole } =
+    api.users.setUserRole.useMutation({
+      onSuccess: () => {
+        void ctx.users.getUser.invalidate();
+        nextStepForm();
+        console.log("Setting User Role Successed");
+      },
+      onError: () => {
+        console.log("Setting User Role Failed");
+      },
+    });
+
   const nextStep = (onClose: () => void) => {
-    if (formStep < FORM_MAX_STEPS) nextStepForm();
-    else {
+    if (formStep < FORM_MAX_STEPS) {
+      mutate({ isSeller: true });
+    } else {
       onClose();
       setFormStep(1);
     }
@@ -56,15 +80,28 @@ export const SetupModal = () => {
                     {formStep === 2 && <SecondStep />}
                   </ModalBody>
                   <ModalFooter>
-                    <Button color="danger" variant="light" onPress={onClose}>
+                    <Button
+                      color="danger"
+                      variant="light"
+                      onPress={onClose}
+                      disabled={isSettingUserRole}
+                    >
                       Close
                     </Button>
                     {formStep > 1 && (
-                      <Button color="default" onPress={() => prevStepForm()}>
+                      <Button
+                        color="default"
+                        onPress={() => prevStepForm()}
+                        disabled={isSettingUserRole}
+                      >
                         Prev
                       </Button>
                     )}
-                    <Button color="primary" onPress={() => nextStep(onClose)}>
+                    <Button
+                      color="primary"
+                      onPress={() => nextStep(onClose)}
+                      disabled={isSettingUserRole}
+                    >
                       {formStep < 2 ? "Next" : "Submit"}
                     </Button>
                   </ModalFooter>
