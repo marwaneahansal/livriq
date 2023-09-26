@@ -1,5 +1,5 @@
 import { Button } from "@nextui-org/react";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
 export enum Variants {
@@ -29,10 +29,17 @@ export const Toast = ({
 
   const [isOpen, setIsOpen] = useState(true);
 
-  const closeToast = () => {
+  const closeToast = useCallback(() => {
     setIsOpen(false);
     onClose();
-  };
+  }, [onClose]);
+
+  useEffect(() => {
+    void setTimeout(() => {
+      closeToast();
+    }, 5000);
+  }, [closeToast]);
+
   return (
     <>
       <div

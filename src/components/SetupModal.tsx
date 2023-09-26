@@ -42,15 +42,15 @@ export const SetupModal = () => {
   const { register, getValues } = useForm<ISetupForm>();
   const [isFormError, setIsFormError] = useState(false);
 
-  const [isSignUpFinish, setIsSignUpFinish] = useState(false);
+  // const [isSignUpFinish, setIsSignUpFinish] = useState(false);
 
   const ctx = api.useContext();
 
   const { mutate, isLoading: isSettingUserRole } =
     api.users.setUserInfo.useMutation({
       onSuccess: () => {
+        // setIsSignUpFinish(true);
         void ctx.users.getUser.invalidate();
-        setIsSignUpFinish(true);
       },
       onError: () => {
         console.log("Setting User Role Failed");
@@ -71,7 +71,7 @@ export const SetupModal = () => {
       setIsFormError(false);
       finishStep();
       onClose();
-      setIsSignUpFinish(true);
+      // setIsSignUpFinish(true);
     } else if (formStep < FORM_MAX_STEPS) {
       if (currentUserRole) nextStepForm();
     } else {
@@ -92,20 +92,21 @@ export const SetupModal = () => {
     });
   };
 
-  const onToastClose = () => {
-    setIsSignUpFinish(false);
-  };
+  // const onToastClose = () => {
+  //   console.log("closed");
+  //   setIsSignUpFinish(false);
+  // };
 
   return (
     <>
       {/* Toast disapair after posting the request */}
-      {isSignUpFinish && (
+      {/* {isSignUpFinish && (
         <Toast
           variant={Variants.success}
           message="Congratluation, You Have Completed the sign up process!"
           onClose={onToastClose}
         />
-      )}
+      )} */}
       <div className="w-full p-2">
         <div className="flex w-full items-center justify-between rounded-md bg-red-500 px-6 py-3 text-white">
           <span>You Sign up setup is not finished.</span>
