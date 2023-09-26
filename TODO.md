@@ -6,8 +6,8 @@
     - [X] hero section (minimal)
     - [X] login page
     - [X] signup page
-    - [ ] signup steps page
+    - [X] signup steps page
 
 ## * Back-end
 
-    -  [ ] signup steps api
+    -  [X] signup steps api

@@ -3,7 +3,7 @@ import { SetupModal } from "~/components/SetupModal";
 import { api } from "~/utils/api";
 
 export default function Dashbaord() {
-  const { data: currentUser } = api.users.getUser.useQuery();
+  const { data: currentUser, isLoading } = api.users.getUser.useQuery();
 
   return (
     <>
@@ -15,7 +15,7 @@ export default function Dashbaord() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {!currentUser?.isCompleted && <SetupModal />}
+      {!isLoading && !currentUser?.isCompleted && <SetupModal />}
       <div className="mt-10 flex w-full flex-col items-center justify-center gap-4">
         <div className="flex w-full flex-1 flex-col items-center justify-center space-y-5">
           <div className="mb-4 flex w-full flex-col space-y-2 text-center">
