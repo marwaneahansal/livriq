@@ -12,7 +12,13 @@ export const usersRouter = createTRPCRouter({
     }),
 
     setUserInfo: protectedProcedure
-    .input(z.object({ isSeller: z.boolean() }))
+    .input(z.object({ 
+        isSeller: z.boolean(),
+        companyName: z.string().nonempty(),
+        phoneNumber: z.string().nonempty(),
+        city: z.string().nonempty(),
+        deliveryMethod: z.string().nullable() }
+    ))
     .mutation(async ({ ctx, input }) => {
         const updatedUser = await ctx.prisma.user.update({
             where: {
@@ -23,6 +29,29 @@ export const usersRouter = createTRPCRouter({
                 isCompleted: true,
             }
         });
+
+        if (updatedUser.role === Roles.Seller)
+        {
+            await ctx.prisma.seller.create({
+                data: {
+                    city: input.city,
+                    phoneNumber: input.phoneNumber,
+                    companyName: input.companyName,
+                    userId: ctx.session.user.id
+                },
+            });
+        } else if (updatedUser.role === Roles.Shipper)
+        {
+            await ctx.prisma.shipper.create({
+                data: {
+                    city: input.city,
+                    phoneNumber: input.phoneNumber,
+                    companyName: input.companyName,
+                    userId: ctx.session.user.id,
+                    deliveryMethod: input.deliveryMethod!
+                },
+            });
+        }
 
       return {
         success: true,

@@ -10,14 +10,19 @@ import {
 import { useState } from "react";
 import { FirstStep } from "./Stepper/FirstStep";
 import { SecondStep } from "./Stepper/SecondStep";
-import { Roles, User } from "@prisma/client";
+import { Roles } from "@prisma/client";
 import { api } from "~/utils/api";
+import { useForm } from "react-hook-form";
+import { Toast, Variants } from "./Toast";
 
-export const SetupModal = ({
-  currentUser,
-}: {
-  currentUser: User | null | undefined;
-}) => {
+export interface ISetupForm {
+  phoneNumber: string;
+  companyName: string;
+  city: string;
+  deliveryMethod: string | null;
+}
+
+export const SetupModal = () => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const FORM_MAX_STEPS = 2;
@@ -34,14 +39,18 @@ export const SetupModal = ({
 
   const [currentUserRole, setCurrentUserRole] = useState<Roles | null>(null);
 
+  const { register, getValues } = useForm<ISetupForm>();
+  const [isFormError, setIsFormError] = useState(false);
+
+  const [isSignUpFinish, setIsSignUpFinish] = useState(false);
+
   const ctx = api.useContext();
 
   const { mutate, isLoading: isSettingUserRole } =
     api.users.setUserInfo.useMutation({
       onSuccess: () => {
         void ctx.users.getUser.invalidate();
-        nextStepForm();
-        console.log("Setting User Role Successed");
+        setIsSignUpFinish(true);
       },
       onError: () => {
         console.log("Setting User Role Failed");
@@ -50,9 +59,21 @@ export const SetupModal = ({
 
   const nextStep = (onClose: () => void) => {
     if (formStep == FORM_MAX_STEPS) {
+      if (
+        !getValues("city") ||
+        !getValues("phoneNumber") ||
+        !getValues("companyName") ||
+        (currentUserRole === Roles.Shipper && !getValues("deliveryMethod"))
+      ) {
+        setIsFormError(true);
+        return;
+      }
+      setIsFormError(false);
       finishStep();
+      onClose();
+      setIsSignUpFinish(true);
     } else if (formStep < FORM_MAX_STEPS) {
-      nextStepForm();
+      if (currentUserRole) nextStepForm();
     } else {
       onClose();
       setFormStep(1);
@@ -60,13 +81,32 @@ export const SetupModal = ({
   };
 
   const finishStep = () => {
-    //! add the second form data
-    mutate({ isSeller: currentUserRole === Roles.Seller ? true : false });
+    mutate({
+      isSeller: currentUserRole === Roles.Seller ? true : false,
+      companyName: getValues("companyName"),
+      phoneNumber: getValues("phoneNumber"),
+      city: getValues("city"),
+      deliveryMethod: getValues("deliveryMethod")
+        ? getValues("deliveryMethod")
+        : null,
+    });
+  };
+
+  const onToastClose = () => {
+    setIsSignUpFinish(false);
   };
 
   return (
     <>
-      <div className="mb-10 w-full p-2">
+      {/* Toast disapair after posting the request */}
+      {isSignUpFinish && (
+        <Toast
+          variant={Variants.success}
+          message="Congratluation, You Have Completed the sign up process!"
+          onClose={onToastClose}
+        />
+      )}
+      <div className="w-full p-2">
         <div className="flex w-full items-center justify-between rounded-md bg-red-500 px-6 py-3 text-white">
           <span>You Sign up setup is not finished.</span>
           <Button
@@ -91,14 +131,20 @@ export const SetupModal = ({
                         setCurrentUserRole={setCurrentUserRole}
                       />
                     )}
-                    {formStep === 2 && <SecondStep />}
+                    {formStep === 2 && (
+                      <SecondStep
+                        currentUserRole={currentUserRole}
+                        register={register}
+                        isFormError={isFormError}
+                      />
+                    )}
                   </ModalBody>
                   <ModalFooter>
                     <Button
                       color="danger"
                       variant="light"
                       onPress={onClose}
-                      disabled={isSettingUserRole}
+                      isDisabled={isSettingUserRole}
                     >
                       Close
                     </Button>
@@ -106,7 +152,7 @@ export const SetupModal = ({
                       <Button
                         color="default"
                         onPress={() => prevStepForm()}
-                        disabled={isSettingUserRole}
+                        isDisabled={isSettingUserRole}
                       >
                         Prev
                       </Button>
@@ -114,7 +160,7 @@ export const SetupModal = ({
                     <Button
                       color="primary"
                       onPress={() => nextStep(onClose)}
-                      disabled={isSettingUserRole}
+                      isDisabled={isSettingUserRole || !currentUserRole}
                     >
                       {formStep < 2 ? "Next" : "Submit"}
                     </Button>

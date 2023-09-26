@@ -15,8 +15,8 @@ export default function Dashbaord() {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {!currentUser?.isCompleted && <SetupModal currentUser={currentUser} />}
-      <div className="flex w-full flex-col items-center justify-center gap-4">
+      {!currentUser?.isCompleted && <SetupModal />}
+      <div className="mt-10 flex w-full flex-col items-center justify-center gap-4">
         <div className="flex w-full flex-1 flex-col items-center justify-center space-y-5">
           <div className="mb-4 flex w-full flex-col space-y-2 text-center">
             <h2 className="text-xl font-bold md:text-4xl">
