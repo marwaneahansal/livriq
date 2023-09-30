@@ -1,4 +1,7 @@
+import { Card, CardBody } from "@nextui-org/react";
 import Head from "next/head";
+import { LuPackage } from "react-icons/lu";
+import { StatisticCard } from "~/components/Dashboard/StatisticCard";
 import { SetupModal } from "~/components/SetupModal";
 import { api } from "~/utils/api";
 
@@ -18,15 +21,27 @@ export default function Dashbaord() {
       {!isLoading && !currentUser?.isCompleted && <SetupModal />}
       <div className="mt-10 flex w-full flex-col items-center justify-center gap-4">
         <div className="flex w-full flex-1 flex-col items-center justify-center space-y-5">
-          <div className="mb-4 flex w-full flex-col space-y-2 text-center">
-            <h2 className="text-xl font-bold md:text-4xl">
-              Welcome to your dashboard
-            </h2>
-            <h3>
-              {currentUser?.isCompleted
-                ? "Sign Up Completed"
-                : "Sign Up Not Completed"}
-            </h3>
+          <div className="mb-4 flex w-full items-center space-x-8">
+            <StatisticCard
+              icon={<LuPackage size={24} />}
+              title="Total Commandes"
+              statistic="20"
+            />
+            <StatisticCard
+              icon={<LuPackage size={24} />}
+              title="Total Commandes"
+              statistic="20"
+            />
+            <StatisticCard
+              icon={<LuPackage size={24} />}
+              title="Total Commandes"
+              statistic="20"
+            />
+            <StatisticCard
+              icon={<LuPackage size={24} />}
+              title="Total Commandes"
+              statistic="20"
+            />
           </div>
         </div>
       </div>
