@@ -18,10 +18,12 @@ import Link from "next/link";
 import React from "react";
 import { Loading } from "./Loading";
 import { useRouter } from "next/router";
+import { api } from "~/utils/api";
 
 export const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { data: sessionData, status } = useSession();
+
 
   // const menuItems = [
   //     "Login",

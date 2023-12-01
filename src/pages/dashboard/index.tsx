@@ -1,4 +1,3 @@
-import { Card, CardBody } from "@nextui-org/react";
 import Head from "next/head";
 import { LuPackage } from "react-icons/lu";
 import { StatisticCard } from "~/components/Dashboard/StatisticCard";
@@ -21,6 +20,7 @@ export default function Dashbaord() {
       {!isLoading && !currentUser?.isCompleted && <SetupModal />}
       <div className="mt-10 flex w-full flex-col items-center justify-center gap-4">
         <div className="flex w-full flex-1 flex-col items-center justify-center space-y-5">
+          {!isLoading && <div>{currentUser?.role}</div>}
           <div className="mb-4 flex w-full items-center space-x-8">
             <StatisticCard
               icon={<LuPackage size={24} />}
