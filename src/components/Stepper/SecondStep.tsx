@@ -15,21 +15,22 @@ export const SecondStep = ({
   return (
     <>
       <div className="flex flex-col space-y-2">
-        {/* {currentUserRole === Roles.Seller && <SellerInfo />}
-        {currentUserRole === Roles.Shipper && <ShipperInfo />} */}
         <Input
+          variant="bordered"
           type="text"
           label="Phone Number"
           placeholder="Enter Your Phone Number"
           {...register("phoneNumber", { required: true, min: 10 })}
         />
         <Input
+          variant="bordered"
           type="text"
           label="Company Name"
           placeholder="Enter Your Company Name"
           {...register("companyName", { required: true, min: 2 })}
         />
         <Input
+          variant="bordered"
           type="text"
           label="City"
           placeholder="Enter Your City"
@@ -37,6 +38,7 @@ export const SecondStep = ({
         />
         {currentUserRole === Roles.Shipper && (
           <Input
+            variant="bordered"
             type="text"
             label="Delivery Method"
             placeholder="Enter Your Delivery Method"
@@ -47,49 +49,6 @@ export const SecondStep = ({
           <p className="text-center text-sm text-red-600">Form is invalid</p>
         )}
       </div>
-    </>
-  );
-};
-
-const ShipperInfo = () => {
-  return (
-    <>
-      <p>Shipper Info</p>
-      <Input
-        type="text"
-        label="Phone Number"
-        placeholder="Enter Your Phone Number"
-      />
-      <Input
-        type="text"
-        label="Company Name"
-        placeholder="Enter Your Company Name"
-      />
-      <Input type="text" label="City" placeholder="Enter Your City" />
-      <Input
-        type="text"
-        label="Delivery Method"
-        placeholder="Enter Your Delivery Method"
-      />
-    </>
-  );
-};
-
-const SellerInfo = () => {
-  return (
-    <>
-      <p>Seller Info</p>
-      <Input
-        type="text"
-        label="Phone Number"
-        placeholder="Enter Your Phone Number"
-      />
-      <Input
-        type="text"
-        label="Company Name"
-        placeholder="Enter Your Company Name"
-      />
-      <Input type="text" label="City" placeholder="Enter Your City" />
     </>
   );
 };
