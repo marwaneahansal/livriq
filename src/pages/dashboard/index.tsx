@@ -23,22 +23,22 @@ export default function Dashbaord() {
           {!isLoading && <div>{currentUser?.role}</div>}
           <div className="mb-4 flex w-full items-center space-x-8">
             <StatisticCard
-              icon={<LuPackage size={24} />}
+              icon={<LuPackage size={28} />}
               title="Total Commandes"
               statistic="20"
             />
             <StatisticCard
-              icon={<LuPackage size={24} />}
+              icon={<LuPackage size={28} />}
               title="Total Commandes"
               statistic="20"
             />
             <StatisticCard
-              icon={<LuPackage size={24} />}
+              icon={<LuPackage size={28} />}
               title="Total Commandes"
               statistic="20"
             />
             <StatisticCard
-              icon={<LuPackage size={24} />}
+              icon={<LuPackage size={28} />}
               title="Total Commandes"
               statistic="20"
             />

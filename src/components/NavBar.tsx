@@ -50,7 +50,12 @@ export const NavBar = () => {
         </NavbarBrand>
         <NavbarContent justify="end">
           {sessionData ? (
-            <UserDropdown user={sessionData.user} />
+            <>
+              <Button color="success" variant="flat" className="mr-4">
+                New Command
+              </Button>
+              <UserDropdown user={sessionData.user} />
+            </>
           ) : (
             <NavbarItems />
           )}
