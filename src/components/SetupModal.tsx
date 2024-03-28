@@ -118,7 +118,7 @@ export const SetupModal = () => {
           >
             finish you setup
           </Button>
-          <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+          <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
             <ModalContent>
               {(onClose) => (
                 <>
