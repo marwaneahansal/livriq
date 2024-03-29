@@ -1,138 +1,133 @@
-import {
-  Avatar,
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  Navbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenu,
-  NavbarMenuToggle,
-} from "@nextui-org/react";
 import type { User } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { Loading } from "./Loading";
 import { useRouter } from "next/router";
-import { api } from "~/utils/api";
+import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "./ui/navigation-menu";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import { buttonVariants } from "./ui/button";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
+import { LayoutDashboard, LayoutDashboardIcon, LogOut, Menu, Settings, UserRound } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+interface RouteProps {
+  name: string;
+  href: string;
+  variant?: "default" | "link" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined;
+}
+
+const routeList: RouteProps[] = [
+  { name: "Sign In", href: "/signin", variant: "outline" },
+  { name: "Sign Up", href: "/signup" },
+]
 
 export const NavBar = () => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { data: sessionData, status } = useSession();
 
-
-  // const menuItems = [
-  //     "Login",
-  //     "Sign Up",
-  //   ];
   return (
-    <div className="w-full">
+    <header className="w-full sticky border-b-[1px] top-0 z-40 bg-white">
       {status === "loading" && <Loading />}
-      <Navbar
-        onMenuOpenChange={setIsMenuOpen}
-        isBordered
-        isBlurred
-        className="px-[6.5rem] py-2"
-        maxWidth="full"
-      >
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
-        />
-        <NavbarBrand>
-          <Link className="text-lg font-bold text-inherit" href={"/"}>
-            Livriq
-          </Link>
-        </NavbarBrand>
-        <NavbarContent justify="end">
-          {sessionData ? (
-            <>
-              <Button color="success" variant="flat" className="mr-4">
-                New Command
-              </Button>
+      <NavigationMenu className="mx-auto">
+        <NavigationMenuList className="container h-14 px-4 w-screen flex justify-between">
+          <NavigationMenuItem className="font-bold flex">
+            <Link className="text-xl font-bold text-inherit" href={"/"}>
+              Livriq
+            </Link>
+          </NavigationMenuItem>
+
+          <MobileNav user={sessionData?.user} />
+
+          <nav className="hidden md:flex gap-2">
+            {sessionData?.user ? (
               <UserDropdown user={sessionData.user} />
-            </>
-          ) : (
-            <NavbarItems />
-          )}
-        </NavbarContent>
-        <NavbarMenu>
-          {/* {menuItems.map((item, index) => (
-                        <NavbarMenuItem key={`${item}-${index}`}>
-                            <Link
-                            color={
-                                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
-                            }
-                            className="w-full"
-                            href="#"
-                            >
-                            {item}
-                            </Link>
-                        </NavbarMenuItem>
-                    ))} */}
-        </NavbarMenu>
-      </Navbar>
-    </div>
+            ) : (
+              <NavbarItems routeList={routeList} />
+            )}
+          </nav>
+
+        </NavigationMenuList>
+      </NavigationMenu>
+    </header>
   );
 };
 
+function MobileNav({ user }: { user: User | undefined }) {
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+  return (<span className="flex md:hidden">
+    <Sheet
+      open={isMenuOpen}
+      onOpenChange={setIsMenuOpen}
+    >
+      <SheetTrigger className="px-2">
+        <Menu className="mr-2 h-4 w-4" />
+      </SheetTrigger>
+      <SheetContent side={"left"}>
+        <SheetHeader>
+          <SheetTitle className="font-bold text-xl">
+            Livriq
+          </SheetTitle>
+        </SheetHeader>
+        <nav className="flex flex-col justify-center items-center gap-2 mt-4">
+          {user ? (
+            <UserDropdown user={user} />
+          ) : (
+            <NavbarItems routeList={routeList} />
+          )}
+        </nav>
+      </SheetContent>
+    </Sheet>
+  </span>)
+}
+
 function UserDropdown({ user }: { user: User }) {
-  const router = useRouter();
 
   return (
-    <Dropdown placement="bottom-end">
-      <DropdownTrigger>
-        <Avatar
-          isBordered
-          as="button"
-          className="transition-transform"
-          color="secondary"
-          name={user.name ?? ""}
-          size="sm"
-          src={user.image ?? ""}
-        />
-      </DropdownTrigger>
-      <DropdownMenu aria-label="Profile Actions" variant="flat" color="primary">
-        <DropdownItem key="profile" className="h-14 gap-2">
-          <p className="font-semibold">{user.name}</p>
-          <p className="font-semibold">{user.email}</p>
-        </DropdownItem>
-        <DropdownItem
-          key="dashboard"
-          onPress={() => void router.push("/dashboard")}
-        >
-          Dashborad
-        </DropdownItem>
-        <DropdownItem key="settings">My Settings</DropdownItem>
-        <DropdownItem
-          key="logout"
-          color="danger"
-          onClick={() =>
-            void signOut({ callbackUrl: "http://localhost:3000/" })
-          }
-        >
-          Log Out
-        </DropdownItem>
-      </DropdownMenu>
-    </Dropdown>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild className="cursor-pointer">
+        <Avatar>
+          <AvatarImage src={user.image ?? ""} alt={user.name ?? ""} />
+          <AvatarFallback>{user.name}</AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>{user.name}</DropdownMenuLabel>
+        <DropdownMenuSeparator></DropdownMenuSeparator>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <LayoutDashboard className="mr-2 h-5 w-5" />
+            <Link href="/dashboard" className="text-md">Dashboard</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <UserRound className="mr-2 h-5 w-5" />
+            <Link href="/dashboard" className="text-md">Profile</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Settings className="mr-2 h-5 w-5" />
+            <Link href="/dashboard" className="text-md">Settings</Link>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator></DropdownMenuSeparator>
+        <DropdownMenuItem className="cursor-pointer text-red-500 font-semibold" onClick={() =>
+          void signOut({ callbackUrl: "http://localhost:3000/" })
+        }>
+          <LogOut className="mr-2 h-5 w-5" />
+          <span>Log out</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
-function NavbarItems() {
+function NavbarItems({ routeList }: { routeList: RouteProps[] }) {
   return (
     <>
-      <NavbarItem className="hidden lg:flex">
-        <Link href={"signin"}>Sign In</Link>
-      </NavbarItem>
-      <NavbarItem>
-        <Button as={Link} color="primary" href={"signup"} variant="flat">
-          Sign Up
-        </Button>
-      </NavbarItem>
+      {routeList.map((route) => (
+        <Link key={route.name} href={route.href} className={`text-lg font-bold text-inherit ${buttonVariants({ variant: route.variant })}`}>
+          {route.name}
+        </Link>
+      ))}
     </>
   );
 }
