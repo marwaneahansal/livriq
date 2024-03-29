@@ -3,14 +3,13 @@ import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
 import { Loading } from "./Loading";
-import { useRouter } from "next/router";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "./ui/navigation-menu";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { buttonVariants } from "./ui/button";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
-import { LayoutDashboard, LayoutDashboardIcon, LogOut, Menu, Settings, UserRound } from "lucide-react";
+import { LayoutDashboard, LogOut, Menu, Settings, UserRound } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+
 interface RouteProps {
   name: string;
   href: string;

@@ -25,6 +25,9 @@ function display_help {
   echo "Prisma Commands:"
   echo "  livriq prisma ...        Run a prisma command"
   echo
+  echo "Shadcnui Commands:"
+  echo "  livriq shadcnui ...        install a new shadcnui component "
+  echo
   echo "Customization:"
   echo "  livriq build --no-cache       Rebuild all of the livriq containers"
 
@@ -41,6 +44,10 @@ if [ $# -gt 0 ]; then
   elif [ "$1" == "prisma" ]; then
     shift 1
     docker compose exec -it app npx prisma "$@"
+  elif [ "$1" == "shadcnui" ]; then
+    shift 1
+    npx shadcn-ui@latest add "$@"
+    docker compose exec -it app yarn install
   elif [ "$1" == "help" ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
     display_help
   else
