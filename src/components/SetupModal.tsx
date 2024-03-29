@@ -13,7 +13,6 @@ import { SecondStep } from "./Stepper/SecondStep";
 import { Roles } from "@prisma/client";
 import { api } from "~/utils/api";
 import { useForm } from "react-hook-form";
-import { Toast, Variants } from "./Toast";
 
 export interface ISetupForm {
   phoneNumber: string;
