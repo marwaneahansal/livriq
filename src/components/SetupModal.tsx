@@ -1,18 +1,22 @@
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  useDisclosure,
-} from "@nextui-org/react";
 import { useState } from "react";
 import { FirstStep } from "./Stepper/FirstStep";
 import { SecondStep } from "./Stepper/SecondStep";
 import { Roles } from "@prisma/client";
 import { api } from "~/utils/api";
 import { useForm } from "react-hook-form";
+import { Button } from "./ui/button";
+import { Alert, AlertDescription } from "./ui/alert";
+import { AlertCircle } from "lucide-react";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "./ui/drawer"
 
 export interface ISetupForm {
   phoneNumber: string;
@@ -22,7 +26,6 @@ export interface ISetupForm {
 }
 
 export const SetupModal = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   const FORM_MAX_STEPS = 2;
   const [formStep, setFormStep] = useState<number>(1);
@@ -91,33 +94,54 @@ export const SetupModal = () => {
     });
   };
 
-  // const onToastClose = () => {
-  //   console.log("closed");
-  //   setIsSignUpFinish(false);
-  // };
-
   return (
     <>
-      {/* Toast disapair after posting the request */}
-      {/* {isSignUpFinish && (
-        <Toast
-          variant={Variants.success}
-          message="Congratluation, You Have Completed the sign up process!"
-          onClose={onToastClose}
-        />
-      )} */}
       <div className="w-full p-2">
-        <div className="flex w-full items-center justify-between rounded-md bg-red-500 px-6 py-3 text-white">
-          <span>You Sign up setup is not finished.</span>
-          <Button
-            variant="bordered"
-            color="danger"
-            className="border-white text-white"
-            onPress={onOpen}
-          >
-            finish you setup
-          </Button>
-          <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
+        <Alert variant="destructive">
+          <div className="flex items-center">
+            <AlertCircle className="h-5 w-5 mr-2" />
+            <p className="font-semibold">Account Setup</p>
+          </div>
+          <AlertDescription className="flex items-center justify-between">
+            <span className="text-md">You Sign up setup is not finished.</span>
+            <Drawer>
+              <DrawerTrigger>
+                <Button
+                  variant={"destructive"}
+                >
+                  finish your setup
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerHeader>
+                  <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+                  <DrawerDescription>This action cannot be undone.</DrawerDescription>
+                </DrawerHeader>
+                {formStep === 1 && (
+                      <FirstStep
+                        currentUserRole={currentUserRole}
+                        setCurrentUserRole={setCurrentUserRole}
+                      />
+                    )}
+                    {formStep === 2 && (
+                      <SecondStep
+                        currentUserRole={currentUserRole}
+                        register={register}
+                        isFormError={isFormError}
+                      />
+                    )}
+                <DrawerFooter>
+                  <Button>Submit</Button>
+                  <DrawerClose asChild>
+                    <Button variant="outline">Cancel</Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </DrawerContent>
+            </Drawer>
+          </AlertDescription>
+        </Alert>
+        {/* <div className="flex w-full items-center justify-between rounded-md bg-red-500 px-6 py-3 text-white"> */}
+        {/* <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="3xl">
             <ModalContent>
               {(onClose) => (
                 <>
@@ -168,8 +192,8 @@ export const SetupModal = () => {
                 </>
               )}
             </ModalContent>
-          </Modal>
-        </div>
+          </Modal> */}
+        {/* </div> */}
       </div>
     </>
   );
