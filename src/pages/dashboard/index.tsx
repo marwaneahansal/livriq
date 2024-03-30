@@ -18,7 +18,6 @@ export default function Dashbaord() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {!isLoading && !currentUser?.isCompleted && <SetupModal />}
-      <SetupModal />
       <div className="mt-10 flex w-full flex-col items-center justify-center gap-4">
         <div className="flex w-full flex-1 flex-col items-center justify-center space-y-5">
           {!isLoading && <div>{currentUser?.role}</div>}

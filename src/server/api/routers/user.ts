@@ -20,43 +20,51 @@ export const usersRouter = createTRPCRouter({
         deliveryMethod: z.string().nullable() }
     ))
     .mutation(async ({ ctx, input }) => {
-        const updatedUser = await ctx.prisma.user.update({
-            where: {
-                id: ctx.session.user.id
-            },
-            data: {
-                role: input.isSeller ? Roles.Seller : Roles.Shipper,
-                isCompleted: true,
+        try {
+
+            const updatedUser = await ctx.prisma.user.update({
+                where: {
+                    id: ctx.session.user.id
+                },
+                data: {
+                    role: input.isSeller ? Roles.Seller : Roles.Shipper,
+                    isCompleted: true,
+                }
+            });
+    
+            if (updatedUser.role === Roles.Seller)
+            {
+                await ctx.prisma.seller.create({
+                    data: {
+                        city: input.city,
+                        phoneNumber: input.phoneNumber,
+                        companyName: input.companyName,
+                        userId: ctx.session.user.id
+                    },
+                });
+            } else if (updatedUser.role === Roles.Shipper)
+            {
+                await ctx.prisma.shipper.create({
+                    data: {
+                        city: input.city,
+                        phoneNumber: input.phoneNumber,
+                        companyName: input.companyName,
+                        userId: ctx.session.user.id,
+                        deliveryMethod: input.deliveryMethod!
+                    },
+                });
             }
-        });
-
-        if (updatedUser.role === Roles.Seller)
-        {
-            await ctx.prisma.seller.create({
-                data: {
-                    city: input.city,
-                    phoneNumber: input.phoneNumber,
-                    companyName: input.companyName,
-                    userId: ctx.session.user.id
-                },
-            });
-        } else if (updatedUser.role === Roles.Shipper)
-        {
-            await ctx.prisma.shipper.create({
-                data: {
-                    city: input.city,
-                    phoneNumber: input.phoneNumber,
-                    companyName: input.companyName,
-                    userId: ctx.session.user.id,
-                    deliveryMethod: input.deliveryMethod!
-                },
-            });
+    
+          return {
+            success: true,
+            message: "Current User Role is Set Successfully",
+            data: { updatedUser, }
+          };
+        } catch (e) {
+            return {
+                success: false,
+                message: "Error while setting user role",
+              };
         }
-
-      return {
-        success: true,
-        message: "Current User Role is Set Successfully",
-        data: { updatedUser, }
-      };
     }),
 });
