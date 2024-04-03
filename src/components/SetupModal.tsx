@@ -17,8 +17,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "./ui/input";
-import { FormEvent, useState } from "react";
-
+import { useState, type FormEvent } from "react";
 
 const FormSchema = z.object({
   role: z.enum(["seller", "shipper"], {
@@ -58,7 +57,6 @@ export const SetupModal = () => {
 
   const sumbitForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // if (form.getValues("role") === "shipper" && !form.getValues("deliveryMethod"))
     mutate({
       isSeller: form.getValues("role") === "seller" ? true : false,
       companyName: form.getValues("company"),
